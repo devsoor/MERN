@@ -9,7 +9,6 @@ const PollResults = props => {
     useEffect(() => {
         axios.get('http://localhost:8000/api/poll/' + props.id)
         .then(res => {
-            console.log("axios get: res.data = ", res.data)
             setPoll(res.data);
             })
             .catch(err => {

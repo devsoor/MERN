@@ -8,9 +8,7 @@ function daysFromToday(date) {
     const firstDate = new Date(date);
   
     var res = Math.abs(today - firstDate) / 1000;
-    console.log("res = ", res)
     var minutes = Math.floor(res / 1440);
-    console.log("days = ", minutes)
     return minutes;
 }
 
@@ -22,28 +20,18 @@ const Main = (props) => {
     useEffect(() => {
         axios.get('http://localhost:8000/api/poll')
             .then(res=>{
-                
-                console.log("axios get: res.data = ", res.data)
                 let sortedPoll = res.data.slice().sort((a,b) => {return new Date(b.createdAt) - new Date(a.createdAt)});
 
                 sortedPoll.map((d) => {
-                    console.log("timestamp: ", d.createdAt)
-                    console.log("Numdays = ", daysFromToday(d.createdAt));
                     d["numDays"]=daysFromToday(d.createdAt);
-                    console.log("numDays = ", d["numDays"]) 
                     const totalVotes = d.option1Num + d.option2Num + d.option3Num + d.option4Num;
                     d["totalVotes"] = totalVotes;
                 })
                 setPolls(sortedPoll);
 
                 let sortedByVotes = res.data.slice().sort((a,b) => a.totalVotes - b.totalVotes);
-                console.log("sortedByVotes = ", sortedByVotes)
                 const top3 = sortedByVotes.slice(2).sort((a,b) => b.totalVotes - a.totalVotes);
-                console.log("top3Polls = ", top3Polls);
                 setTop3Polls(top3);
-                top3Polls.map(p => {
-                    console.log("top3 are: ", p.question)
-                })
 
             })
             .catch(err=>{

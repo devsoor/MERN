@@ -17,24 +17,19 @@ const PollNew = props => {;
     });
     const [errors, setErrors] = useState([]); 
 
-
     const handleChange = e => {
-        console.log("handleChange: e value = ", e.target.value)
         setPoll({...poll, [e.target.name]: e.target.value});
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("handleSubmit: poll = ", poll)
         const {question, option1, option2, option3, option4, option1Num, option2Num, option3Num, option4Num} = poll;
         axios.post('http://localhost:8000/api/poll', {question, option1, option2, option3, option4, option1Num, option2Num, option3Num, option4Num})
             .then(res => {
-                console.log("axios post: res.data = ", res.data)
                 setPoll(res.data)
                 navigate('/');
             })
             .catch(err => {
-                console.log("axios post: Catch = ", err)
                 const errorResponse = err.response.data.errors;
                 const errorArr = [];
                 for (const key of Object.keys(errorResponse)) {

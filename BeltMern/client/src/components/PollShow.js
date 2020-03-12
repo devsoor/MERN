@@ -25,7 +25,6 @@ const PollShow = props => {
     useEffect(() => {
         axios.get('http://localhost:8000/api/poll/' + props.id)
         .then(res => {
-            console.log("axios get: res.data = ", res.data)
             setPoll(res.data);
             })
             .catch(err => {
@@ -34,10 +33,6 @@ const PollShow = props => {
     }, [])
 
     const handleClick = (e) => {
-        console.log("handlChange: e.target name = ", e.target.name)
-        console.log("handlChange: poll option1Num = ", poll.option1Num)
-        console.log("handlChange: poll option2Num = ", poll.option2Num)
-
         if (e.target.name == "option1Number") {
             poll.option1Num++;
         }
@@ -54,7 +49,6 @@ const PollShow = props => {
         const {question, option1, option2, option3, option4, option1Num, option2Num, option3Num, option4Num} = poll;
         axios.put('http://localhost:8000/api/poll/' + props.id, {question, option1, option2, option3, option4, option1Num, option2Num, option3Num, option4Num})
             .then(res => {
-                console.log("axios get: res.data = ", res.data)
                 setPoll(res.data);
                 navigate('/polls/results/' + props.id)
             })
@@ -80,7 +74,6 @@ const PollShow = props => {
                                     <CardBody className="text-center">
                                         <h5>{poll.option1}</h5>
                                         <Button color="warning" name="option1Number" onClick={handleClick}>Vote {poll.option1}</Button>
-                                        {/* <Input type="radio" name="option1Num" onChange={handleChange}></Input> */}
                                     </CardBody>
                                 </Card>
                             }   
@@ -89,7 +82,6 @@ const PollShow = props => {
                                     <CardBody>
                                         <h5>{poll.option2}</h5>
                                     <Button color="danger" name="option2Number"  onClick={handleClick}>Vote {poll.option2}</Button>
-                                        {/* <Input type="radio" name="option2Num" onChange={handleChange}></Input> */}
                                     </CardBody>
                                 </Card>
                             }   
